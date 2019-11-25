@@ -766,7 +766,7 @@ ul.events-wrapper li {
 }
 
 .waiting {
-    background-image: url(../Images/wait.gif);
+    background-image: url(../images/wait.gif);
     background-repeat: no-repeat;
     background-position: left;
     float: left;
@@ -1002,7 +1002,7 @@ i {
 }
 
 .seatActive, .seatLock, .userseatLock, .seatSold, .seatSelect, .seatReserve, .seatGuest, .seatUnUseable, .seatAssign, .seatNotSale, .seatUserUnUseable, .seat-wait-confirm {
-    background-image: url("../Images/seat.png");
+    background-image: url("../images/seat.png");
     border: 0 none;
     cursor: pointer;
     display: inline-block;

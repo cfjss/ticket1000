@@ -10,9 +10,9 @@ $(document).ready(function () {
         createCardElement();
     }
 
-    if ($("#bodyContainer_hfdSetCardType").val() == '1') {
-        cardType();
-    }
+    //if ($("#bodyContainer_hfdSetCardType").val() == '1') {
+    //    cardType();
+    //}
 });
 
 $("#ImageMapbodyContainer_imgMainMap").click(function () {
@@ -43,6 +43,176 @@ function mapLight() {
     });
 
 }
+var validateSingleSeats = function () {
+
+    if (hasSingle()) {
+        alert("select seats so that no single seat is created");
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function hasSingle() {
+    var result = false;
+
+    $.each($('.SeatPanelSeats .seatRow'), function (i, seat) {
+        $('.seatSelect', seat).each(function () {
+            var tn = $(this).next().attr("class");
+            var tp = $(this).prev().attr("class");
+            var tnn = $(this).next().next().attr("class");
+            var tpp = $(this).prev().prev().attr("class");
+
+            var marginLeft = $(this).css('margin-left');
+            var marginRight = $(this).css('margin-right');
+            var marginRightPre = $(this).prev().css('margin-right');
+            var marginLeftPre = $(this).prev().css('margin-left');
+
+
+            var direction = $(this).parent().parent().css('direction');
+            var isRtl = false;
+            if (direction == undefined || direction == 'rtl') {
+                isRtl = true;
+            }
+            // Last Tak
+            if (tn == "seatActive" && (tnn == undefined || tnn == "seatRowHeader") && (((marginRight == undefined || marginRight == '0px') && !isRtl) || ((marginLeft == undefined || marginLeft == '0px') && isRtl))) {
+                result = true;
+                return false;
+            }
+            // First Tak
+            if (tp == "seatActive" && (tpp == undefined || tpp == "seatRowHeader") && (((marginRightPre == undefined || marginRightPre == '0px') && !isRtl) || ((marginLeftPre == undefined || marginLeftPre == '0px') && isRtl))) {
+                result = true;
+                return false;
+            }
+            if (tn == "seatActive") {
+                if (tnn == 'seatSold' || tnn == 'seatSelect' || tnn == 'seatReserve' || tnn == "seatMyPurchase" || tnn == "seatUnUseable" || tnn == "seatGuest" || tnn == "seatLock") {
+                    result = true;
+
+                    if (isRtl) {
+                        var c = $(this).next().css('margin-left');
+                        if (c !== undefined && c !== '0px') {
+                            result = false;
+                        }
+                    } else {
+                        var c = $(this).css('margin-right');
+                        if (c !== undefined && c !== '0px') {
+                            result = false;
+                        }
+                    }
+                    if (result) {
+                        return false;
+                    }
+                }
+            }
+            if (tp == "seatActive") {
+                if (tpp == 'seatSold' || tpp == 'seatSelect' || tpp == 'seatReserve' || tpp == "seatMyPurchase" || tpp == "seatUnUseable" || tpp == "seatGuest" || tpp == "seatLock") {
+                    result = true;
+
+                    if (isRtl) {
+                        var c = $(this).prev().css('margin-left');
+                        if (c !== undefined && c !== '0px') {
+                            result = false;
+                        }
+                    } else {
+                        var c = $(this).prev().css('margin-right');
+                        if (c !== undefined && c !== '0px') {
+                            result = false;
+                        }
+                    }
+
+                    if (result) {
+                        return false;
+                    }
+
+                }
+            }
+
+            if (isRtl) {
+                // left rahro
+                var marginLeftpLtr = $(this).prev().css('margin-left');
+                if (tp == "seatActive" && marginLeftpLtr !== undefined && marginLeftpLtr !== '0px') {
+                    result = true;
+
+                    var p = $(this).prev().css('margin-left');
+                    if (p !== undefined && p !== '0px') {
+                        result = false;
+                    }
+
+                    var pp = $(this).prev().prev().css('margin-left');
+                    if (pp !== undefined && pp !== '0px') {
+                        result = false;
+                    }
+                    if (result)
+                        return false;
+                }
+                var marginLeftpRtl = $(this).prev().prev().css('margin-left');
+                if (tp == "seatActive" && marginLeftpRtl !== undefined && marginLeftpRtl !== '0px') {
+                    result = true;
+
+                    var c = $(this).prev().css('margin-left');
+                    if (c !== undefined && c !== '0px') {
+                        result = false;
+                    }
+
+                    if (result)
+                        return false;
+                }
+                // right rahro
+                var marginLeftnRtl = $(this).next().css('margin-left');
+                if (tn == "seatActive" && marginLeftnRtl !== undefined && marginLeftnRtl !== '0px') {
+                    result = true;
+
+                    var n = $(this).css('margin-left');
+                    if (n !== undefined && n !== '0px') {
+                        result = false;
+                    }
+                    if (result)
+                        return false;
+                }
+
+            } else {
+                // right rahro
+                var marginLeftnLtr = $(this).next().css('margin-right');
+                if (tn == "seatActive" && marginLeftnLtr !== undefined && marginLeftnLtr !== '0px') {
+                    result = true;
+
+                    var n = $(this).next().css('margin-right');
+                    if (n !== undefined && n !== '0px') {
+                        result = false;
+                    }
+                    if (result)
+                        return false;
+                }
+                var marginLeftnRtl = $(this).next().css('margin-right');
+                if (tn == "seatActive" && marginLeftnRtl !== undefined && marginLeftnRtl !== '0px') {
+                    result = true;
+                    var c = $(this).css('margin-right');
+                    if (c !== undefined && c !== '0px') {
+                        result = false;
+                    }
+                    if (result)
+                        return false;
+                }
+                // left rahro
+                var marginLeftpRtl = $(this).prev().prev().css('margin-right');
+                if (tp == "seatActive" && marginLeftpRtl !== undefined && marginLeftpRtl !== '0px') {
+                    result = true;
+
+                    var p = $(this).prev().css('margin-right');
+                    if (p !== undefined && p !== '0px') {
+                        result = false;
+                    }
+                    if (result)
+                        return false;
+                }
+            }
+        });
+    });
+    return result;
+}
+
+
 function createCardElement() {
     //stripe = Stripe('');
     stripe = Stripe('pk_test_ILqACRzOxpocVfMfe18JwXPs00oOeDSqkz');
@@ -126,9 +296,6 @@ function handleAction(clientSecret) {
         }
     });
 }
-
-
-
 
 function payByCreditCard(param) {
 
