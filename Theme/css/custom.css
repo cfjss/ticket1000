@@ -1188,3 +1188,11 @@ table {
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
+
+.payment-vendor-logo {
+	margin: 15px 0px;
+}
+#exchange_rate {
+	text-align: center;
+	padding: 5px;
+}
