@@ -8,3 +8,9 @@
 	height: 30px;
 	border-radius: 50%;
 }
+
+.payment-vendor-logo img {
+    background-color: #ffffff87;
+    padding: 3px;
+    border-radius: 3px;
+}
