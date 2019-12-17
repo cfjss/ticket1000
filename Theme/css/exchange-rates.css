@@ -1,5 +1,6 @@
 .exchange-rate .exchange-title {
 	text-align: left;
+	padding-bottom: 5px;
 }
 .exchange-rate .exchange-flag {
 	width: 50px;
