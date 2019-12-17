@@ -1189,10 +1189,7 @@ table {
     background-color: #fefde5 !important;
 }
 
-.payment-vendor-logo {
-	margin: 15px 0px;
-}
-#exchange_rate {
+#exchange-rate {
 	text-align: center;
 	padding: 5px;
 }
