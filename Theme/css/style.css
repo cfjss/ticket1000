@@ -987,7 +987,7 @@ body {
             font-size: 12px;
             display: block;
             font-family: "Montserrat-Light";
-            margin: 0 0 5px;
+            margin: 0 0 8px;
         }
 
         .section-upcoming-events .section-content .date .year {
@@ -2049,7 +2049,7 @@ body {
 
     .secondary-link:hover {
         color: #fff;
-        background: #ff6600;
+        background: #009cde;
         border: 1px solid #fff;
     }
 

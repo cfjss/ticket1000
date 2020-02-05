@@ -1188,6 +1188,7 @@ table {
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
+
 .farsi {
     font-family: Tahoma;
     line-height: 24px;
@@ -1198,3 +1199,9 @@ table {
         color:#000;
         font-weight:bold;
     }
+.month-fa {
+    font-family: tahoma;
+    font-size: 12px;
+    display: block;
+    margin: 0 0 8px 0;
+}
