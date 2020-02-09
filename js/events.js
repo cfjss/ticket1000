@@ -1,8 +1,8 @@
-$('a[href$="Shopping.aspx?ID=MjM="]').click(function(e){
+$('li a[href$="Shopping.aspx?ID=MjM="]').click(function(e){
   e.preventDefault();
   $('#modal1').modal();
 })
-$('a[href$="Shopping.aspx?ID=MjQ="]').click(function(e){
+$('li a[href$="Shopping.aspx?ID=MjQ="]').click(function(e){
   e.preventDefault();
   $('#modal2').modal();
 });
