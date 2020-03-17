@@ -8,13 +8,15 @@ $(document).ready(function () {
 
 function seatClick(e) {
     var ids = $('#bodyContainer_hfdIDs');
-    if (e.className == 'seatActive') {
+    if (e.className == 'seatActive' || e.className == 'seatLock') {
         e.className = 'seatSelect';
         ids.val(ids.val() + ',' + e.id);
     }
     else if (e.className == 'seatSelect') {
         if (e.getAttribute('t') == "1")
             e.className = 'seatActive';
+        else if (e.getAttribute('t') == "2")
+            e.className = 'seatLock';
         ids.val(ids.val().replace(',' + e.id, ""));
     }
     return true;

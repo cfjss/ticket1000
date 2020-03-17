@@ -744,7 +744,7 @@ ul.events-wrapper li {
     width: 100%;
     border: 2px solid #009cde;
     height: 55px;
-    line-height: 44px;
+    line-height: 44px !important;
     text-align: center;
     color: #009cde;
     font-size: 17px;
