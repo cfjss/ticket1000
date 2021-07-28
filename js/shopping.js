@@ -20,7 +20,7 @@ $("#ImageMapbodyContainer_imgMainMap").click(function () {
 });
 
 function seatClick(e) {
-    var ids = $('#bodyContainer_hfdIDs'); 
+    var ids = $('#bodyContainer_hfdIDs');
     if (e.className == 'seatActive') {
         e.className = 'seatSelect';
         ids.val(ids.val() + ',' + e.id);
@@ -43,17 +43,29 @@ function mapLight() {
     });
 
 }
-var validateSingleSeats = function () {
+var validateSeats = function (hasSocialDistance) {
+    if (!hasSelect()) {
+        alert('No seat selected');
+        return false;
+    }
 
     if (hasSingle()) {
         alert("select seats so that no single seat is created");
         return false;
     }
     else {
+        if (hasSocialDistance == 'True')
+            getIDForSocialDistance();
         return true;
     }
 }
-
+var hasSelect = function () {
+    var ids = $('#bodyContainer_hfdIDs');
+    if (ids.val() == '')
+        return false;
+    else
+        return true;
+}
 function hasSingle() {
     var result = false;
 
@@ -212,6 +224,119 @@ function hasSingle() {
     return result;
 }
 
+var getIDForSocialDistance = function () {
+    var finalArray = [];
+    $('span.seatSelect').each(function () {
+        //next seat class
+        //صندلی بعدی
+        var nextElement = $(this).next();// $(this).nextAll('span:not(.seatSelect)').filter(':first');
+        if ((nextElement != null && nextElement != undefined && nextElement.length > 0 && nextElement.attr("class") != "seatSelect") ||
+            nextElement == null || nextElement == undefined || nextElement.length == 0) {
+
+            //direcion  
+            var direction = $(this).parent().parent().css('direction');
+            var isRtl = false;
+            if (direction == undefined || direction == 'rtl') {
+                isRtl = true;
+            }
+            var nextElementClass = "";
+            var nextElementId;
+
+            //marginLeft Self
+            var marginLeft = $(this).css('margin-left');
+
+            //marginRight Self
+            var marginRight = $(this).css('margin-right');
+
+
+            //اگر صندلی بعدی وجود داشته باشد
+            if (nextElement != null && nextElement != undefined && nextElement.length > 0) {
+                //کلاس و آی دی شو ذخیره میکنیم
+                nextElementClass = nextElement.attr("class");
+                nextElementId = nextElement.attr("id")//.html()//;
+            }
+
+            if (isRtl) {
+                if (nextElement !== null && nextElement.length > 0 && (nextElementClass === "seatActive" || nextElementClass === "seatUnUseable") && marginLeft === '0px') {
+                    finalArray.push(nextElementId);
+                }
+                else {
+                    removeFormArray(finalArray, nextElementId);
+                }
+            }
+            else {
+                if (nextElement !== null && nextElement.length > 0 && (nextElementClass === "seatActive" || nextElementClass === "seatUnUseable") && marginRight === '0px') {
+                    finalArray.push(nextElementId);
+                }
+                else {
+                    removeFormArray(finalArray, nextElementId);
+                }
+            }
+        }
+    });
+
+    $('span.seatSelect').each(function () {
+        //prev seat class
+        //صندلی قبلی را بدست می آوریم
+        var prevElement = $(this).prev();//'span:not(.seatSelect)');
+        if ((prevElement != null && prevElement != undefined && prevElement.length > 0 && prevElement.attr("class") != "seatSelect") ||
+            prevElement == null || prevElement == undefined || prevElement.length == 0) {
+
+            //direcion  
+            var direction = $(this).parent().parent().css('direction');
+            var isRtl = false;
+            if (direction == undefined || direction == 'rtl') {
+                isRtl = true;
+            }
+            var prevElementClass = "";
+            var prevElementId;
+
+            //marginLeft Self
+            var marginLeft = $(this).css('margin-left');
+
+            //marginRight Self
+            var marginRight = $(this).css('margin-right');
+            var marginLeftPre = $(this).prev().css('margin-left');
+            var marginrightPre = $(this).prev().css('margin-right');
+
+            if (prevElement != null && prevElement != undefined && prevElement.length > 0) {
+
+                //اگر صندلی قبلی وجود داشته باشد آی و کلاسشو ذخیره میکنیم
+                prevElementClass = prevElement.attr("class");
+                prevElementId = prevElement.attr("id")//.html()//.attr("id");
+            }
+
+
+            if (isRtl) {
+                if (prevElement !== null && prevElement.length > 0 && (prevElementClass === "seatActive" || prevElementClass === "seatUnUseable") && marginLeftPre === '0px') {
+                    finalArray.push(prevElementId);
+                }
+                else {
+                    removeFormArray(finalArray, prevElementId);
+                }
+            }
+            else {
+                if (prevElement !== null && prevElement.length > 0 && (prevElementClass === "seatActive" || prevElementClass === "seatUnUseable") && marginrightPre === '0px') {
+                    finalArray.push(prevElementId);
+                }
+                else {
+                    removeFormArray(finalArray, prevElementId);
+                }
+            }
+        }
+    });
+    var unique = finalArray.filter(function (itm, i, finalArray) {
+        return i == finalArray.indexOf(itm);
+    });
+    var distanceIds = $('#bodyContainer_hfdDistanceIDs');
+    distanceIds.val(unique);
+}
+
+
+function removeFormArray(array, item) {
+    var index = array.indexOf(item);
+    if (index !== -1) array.splice(index, 1);
+}
 
 function createCardElement() {
     //stripe = Stripe('');
